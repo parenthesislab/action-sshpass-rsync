@@ -23,24 +23,12 @@ if [ -z "$INPUT_KEY" ]; then # Password
   echo "> Exporting Password"
   export SSHPASS=$PASS
 
-  [[ -z "${INPUT_RUNBEFORE}" ]] && {
-    echo "> Executing commands before deployment"
-    sshpass -e ssh -o StrictHostKeyChecking=no -p $INPUT_PORT $INPUT_USER@$INPUT_HOST "$RUNBEFORE"
-  }
-
   echo "> Deploying now"
   if [ -z "$USERSYNCURL" ]; then
-    echo "> Deploying now with rsync URL"
-    # sshpass -p $INPUT_PASS rsync -avhz --progress --stats $GITHUB_WORKSPACE/$INPUT_LOCAL rsync://$INPUT_USER@$INPUT_HOST:$INPUT_PORT$INPUT_REMOTE --delete-during
+    sshpass -p $INPUT_PASS rsync -avhz --progress --stats $GITHUB_WORKSPACE/$INPUT_LOCAL rsync://$INPUT_USER@$INPUT_HOST:$INPUT_PORT$INPUT_REMOTE --delete-during
   else
-    echo "> Deploying now with NO rsync URL"
-    # sshpass -p $INPUT_PASS rsync -avhz --progress --stats -e "ssh -p $INPUT_PORT" $GITHUB_WORKSPACE/$INPUT_LOCAL $INPUT_USER@$INPUT_HOST:$INPUT_REMOTE --delete-during
+    sshpass -p $INPUT_PASS rsync -avhz --progress --stats -e "ssh -p $INPUT_PORT" $GITHUB_WORKSPACE/$INPUT_LOCAL $INPUT_USER@$INPUT_HOST:$INPUT_REMOTE --delete-during
   fi
-
-  [[ -z "${INPUT_RUNAFTER}" ]] && {
-    echo "> Executing commands after deployment"
-    sshpass -e ssh -o StrictHostKeyChecking=no -p $INPUT_PORT $INPUT_USER@$INPUT_HOST "$RUNAFTER"
-  }
 
 else
   # Private key
@@ -58,22 +46,12 @@ else
 
   ls -lha "/root/.ssh/"
 
-  [[ -z "${INPUT_RUNBEFORE}" ]] && {
-    echo "> Executing commands before deployment"
-    sshpass -e ssh -o StrictHostKeyChecking=no -p $INPUT_PORT $INPUT_USER@$INPUT_HOST "$RUNBEFORE"
-  }
-
   echo "> Deploying now"
   if [ -z "$USERSYNCURL" ]; then
     sshpass -e rsync -avhz --progress --stats $GITHUB_WORKSPACE/$INPUT_LOCAL rsync://$INPUT_USER@$INPUT_HOST:$INPUT_PORT$INPUT_REMOTE --delete-during
   else
     sshpass -e rsync -avhz --progress --stats -e "ssh -p $INPUT_PORT" $GITHUB_WORKSPACE/$INPUT_LOCAL $INPUT_USER@$INPUT_HOST:$INPUT_REMOTE --delete-during
   fi
-
-  [[ -z "${INPUT_RUNAFTER}" ]] && {
-    echo "> Executing commands after deployment"
-    sshpass -e ssh -o StrictHostKeyChecking=no -p $INPUT_PORT $INPUT_USER@$INPUT_HOST "$RUNAFTER"
-  }
 fi
 
 echo "#################################################"
