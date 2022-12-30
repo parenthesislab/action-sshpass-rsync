@@ -31,10 +31,10 @@ if [ -z "$INPUT_KEY" ]; then # Password
   echo "> Deploying now"
   if [ -z "$USERSYNCURL" ]; then
     echo "> Deploying now with rsync URL"
-    sshpass -p $INPUT_PASS rsync -avhz --progress --stats $GITHUB_WORKSPACE/$INPUT_LOCAL rsync://$INPUT_USER@$INPUT_HOST:$INPUT_PORT$INPUT_REMOTE --delete-during
+    # sshpass -p $INPUT_PASS rsync -avhz --progress --stats $GITHUB_WORKSPACE/$INPUT_LOCAL rsync://$INPUT_USER@$INPUT_HOST:$INPUT_PORT$INPUT_REMOTE --delete-during
   else
     echo "> Deploying now with NO rsync URL"
-    sshpass -p $INPUT_PASS rsync -avhz --progress --stats -e "ssh -p $INPUT_PORT" $GITHUB_WORKSPACE/$INPUT_LOCAL $INPUT_USER@$INPUT_HOST:$INPUT_REMOTE --delete-during
+    # sshpass -p $INPUT_PASS rsync -avhz --progress --stats -e "ssh -p $INPUT_PORT" $GITHUB_WORKSPACE/$INPUT_LOCAL $INPUT_USER@$INPUT_HOST:$INPUT_REMOTE --delete-during
   fi
 
   [[ -z "${INPUT_RUNAFTER}" ]] && {
