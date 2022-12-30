@@ -30,6 +30,9 @@ inputs:
   runAfterDeployment:
     description: "Commands that shall be executed after deployment"
     required: false
+  useRsyncUrl:
+    description: "Indicates whether to use rsync URL format or not (rsync://IPADDR:RsyncPort/)"
+    required: false
 
 description: 'SSHPASS Github Action'
 branding:
@@ -48,3 +51,4 @@ runs:
     REMOTE: ${{ inputs.remote }}
     RUNBEFORE: ${{ inputs.runBeforeDeployment }}
     RUNAFTER: ${{ inputs.runAfterDeployment }}
+    USERSYNCURL: ${{ inputs.useRsyncUrl }}
